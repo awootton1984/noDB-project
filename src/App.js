@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
+  constructor (){
+    super()
+
+    this.state = {
+      skiers: []
+    }
+  }
+
+componentDidMount() {
+axios.get('/api/skiers').then(res => {
+  console.log(res.data)
+  this.setState({
+    skiers: res.data
+  })
+})
+}
+
+createSkier
+
   render() {
+    const mappedSkiers = this.state.skiers.map(skier => {
+      return (
+        <div key={skier.id}>
+          <h2>{skier.name}</h2>
+          <p>{skier.type}</p>
+          <p>{skier.status}</p>
+        </div>
+      )
+    })
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Ski Lodge</h1>
+        {mappedSkiers}
       </div>
     );
   }
